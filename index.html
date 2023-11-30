@@ -13,7 +13,10 @@
     </style>
 </head>
 <body>
-    <h1 class="p-3 text-center display-1">Feet:  <b id="feet_result">0</b></h1>
+    <h1 class="p-3 text-center display-1">
+        Feet:  <b style="color: red;" id="feet_result">0</b>
+        Inch:  <b style="color: red;" id="inch_result">0</b>
+    </h1>
     <div class="row g-3">
         <div class="col-6 px-3 py-3">
             <div class="input-group">
@@ -45,12 +48,17 @@
     <script>
         function handleInputUpdate(e) {
             // console.log('Input value updated:', e.target.name, e.target.value);
-            let feet1 = parseInt(feet_1.value) + parseInt(inch_1.value) / 12;
-            let feet2 = parseInt(feet_2.value) + parseInt(inch_2.value) / 12;
+            let feet1 = parseInt(feet_1.value) + parseFloat(inch_1.value) / 12;
+            let feet2 = parseInt(feet_2.value) + parseFloat(inch_2.value) / 12;
             // console.log(feet1, feet2);
             let result = Math.sqrt(Math.pow(feet1, 2) + Math.pow(feet2, 2));
-            // console.log(result);
-            if (result) feet_result.innerText = result.toFixed(2)
+            console.log(result);
+            if (result) {
+                const integerPart = Math.floor(result);
+                const decimalPart = result - integerPart;
+                feet_result.innerText = integerPart
+                inch_result.innerText = (decimalPart*12).toFixed(2) 
+            }
             
         }
 
@@ -60,6 +68,7 @@
         const feet_2 = document.getElementById('feet_2');
         const inch_2 = document.getElementById('inch_2');
         const feet_result = document.getElementById('feet_result');
+        const inch_result = document.getElementById('inch_result');
 
         // Attach an event listener to the input for the 'input' event
         feet_1.addEventListener('input', handleInputUpdate);
